@@ -6,22 +6,24 @@ public class PlayerController : PhysicsObject
 {
     public float JumpTakeOffSpeed = 7;
     public float MaxSpeed = 7;
-    bool canDoubleJump = false;
+    public bool canDoubleJump;
+    private bool LookRight = true;
 
-    void Start()
+
+    void Awake()
     {
-        
+        this.gravityModifier = 2f;
     }
+
 
     protected override void ComputeVelocity()
     {
         Vector2 MoveP = Vector2.zero;
         MoveP.x = Input.GetAxis("Horizontal");
 
-      
+
         if (Input.GetButtonDown("Jump"))
         {
-
             if (grounded)
             {
                 canDoubleJump = true;
@@ -32,25 +34,34 @@ public class PlayerController : PhysicsObject
             {
                 if (canDoubleJump)
                 {
+                    velocity.y = 0;
                     canDoubleJump = false;
                     velocity.y += JumpTakeOffSpeed;
-                    Debug.Log(velocity.y);
                 }
             }
-            
-        }
-        
-        /*
-        else if (Input.GetButtonUp("Jump"))
-        {
-            if (velocity.y > 0)
-            {
-                velocity.y = velocity.y * 0.50f;
-            }
-        }
-    */
-        targetVelocity = MoveP * MaxSpeed;
-    }
 
+
+        }
+
+        if (MoveP.x > 0 && !LookRight)
+        {
+            Flip();
+        }
+        else if (MoveP.x < 0 && LookRight)
+        {
+            Flip();
+        }
+
+        targetVelocity = MoveP * MaxSpeed;
+
+    }
+    private void Flip()
+    {
+        LookRight = !LookRight;
+
+        Vector3 Scale = transform.localScale;
+        Scale.x *= -1;
+        transform.localScale = Scale;
+    }
 
 }

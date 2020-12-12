@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PhysicsObject : MonoBehaviour
 {
-    public float minGroundNormalY = .65f;
+    public float minGroundNormalY = 0f;
     public float gravityModifier = 1f;
 
     protected Vector2 targetVelocity;
@@ -73,14 +73,17 @@ public class PhysicsObject : MonoBehaviour
                 hitBufferList.Add(hitBuffer[i]);
 
 
+
+
+
             for (int i = 0; i < hitBufferList.Count; i++)
             {
                 Vector2 currentNormal = hitBufferList[i].normal;
 
-                if (currentNormal.y > minGroundNormalY) // there will be no movement on slopes unless player sends input
+
+                if (currentNormal.y > minGroundNormalY)
                 {
                     grounded = true;
-
                     if (yMovement)
                     {
                         groundNormal = currentNormal;
@@ -88,7 +91,9 @@ public class PhysicsObject : MonoBehaviour
                     }
                 }
 
-                float projection = Vector2.Dot(velocity, currentNormal); // prevent entering into anothe collider
+               
+
+                float projection = Vector2.Dot(velocity, currentNormal); // prevent entering into another collider
 
                 if (projection < 0)
                     velocity = velocity - projection * currentNormal; // hit to ceiling but continue to horizontal movement
@@ -101,3 +106,4 @@ public class PhysicsObject : MonoBehaviour
         rb2d.position = rb2d.position + move.normalized * distance;
     }
 }
+    
