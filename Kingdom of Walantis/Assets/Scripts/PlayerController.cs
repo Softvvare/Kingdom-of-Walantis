@@ -7,22 +7,33 @@ public class PlayerController : PhysicsObject
     public float JumpTakeOffSpeed = 7;
     public float MaxSpeed = 7;
     private bool canDoubleJump;
+    public bool canFlip, canRun;
     private bool LookRight = true;
     private bool falling = false; // check is we are falling
 
     private Animator anim;
 
-
     void Awake()
     {
         anim = GetComponent<Animator>();
         this.gravityModifier = 2f;
+        canFlip = true;
+        canRun = true;
     }
+
 
     protected override void ComputeVelocity()
     {
+
         Vector2 MoveP = Vector2.zero;
+        
         MoveP.x = Input.GetAxis("Horizontal");
+
+        if (canRun == false && anim.GetBool("Grounded") == true) //  anim.GetBool("IsAttacking") == true
+        {
+            MoveP.x = 0f;
+        }
+
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -43,14 +54,22 @@ public class PlayerController : PhysicsObject
         }
 
         if (!grounded)
+        {
             falling = isFalling(velocity);
+            anim.SetBool("CanRun", false);
+        }    
+            
         else
+        {
             falling = isFalling(velocity);
+            anim.SetBool("CanRun", true);
+        }
 
         if (MoveP.x > 0 && !LookRight)
         {
             Flip();
         }
+       
         else if (MoveP.x < 0 && LookRight)
         {
             Flip();
@@ -67,12 +86,37 @@ public class PlayerController : PhysicsObject
     }
     private void Flip()
     {
-        LookRight = !LookRight;
 
-        Vector3 Scale = transform.localScale;
-        Scale.x *= -1;
-        transform.localScale = Scale;
+        if (canFlip)
+        {
+            LookRight = !LookRight;
+
+            Vector3 Scale = transform.localScale;
+            Scale.x *= -1;
+            transform.localScale = Scale;
+        }
+        
     }
+
+    public void DisableFlip()
+    {
+        canFlip = false;
+    }
+
+    public void EnableFlip()
+    {
+        canFlip = true;
+    }
+
+    public void EnableRun()
+    {
+        canRun = true;
+    }
+
+    public void DisableRun()
+    {
+        canRun = false;
+    } 
 
     private bool isFalling(Vector2 move)
     {
@@ -81,5 +125,6 @@ public class PlayerController : PhysicsObject
         else
             return true;
     }
+
 
 }
