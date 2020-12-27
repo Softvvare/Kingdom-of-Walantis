@@ -2,57 +2,143 @@
 
 public class PlayerAttackController : MonoBehaviour
 {
+    [SerializeField]
+    private bool combatEnabled;
+
+    [SerializeField]
+    private float  attackRange = 0.5f,  attackRate = 1f;// attack cooldown
+
+    [SerializeField]
+    private int attackDamage = 70, liteAttackDamage = 30;
+
+    [SerializeField]
+    private LayerMask whatIsDamageable;
+    [SerializeField]
+    private Transform attackP;
+
+    protected float nextAttackTime = 0f;
+
+    private bool gotInput, isAttacking;
 
     private Animator anim;
-    public Transform attackP;
-    public float attackRange = 0.5f;
-    public LayerMask enemyLayer;
-    public int attackDamage = 40;
-    
-    public float attackRate = 1f;// attack cooldown
-    private float nextAttackTime = 0f;
 
-    void Start()
+
+    public void Start()
     {
+        combatEnabled = true;
+        isAttacking = false;
         anim = GetComponent<Animator>();
+        anim.SetBool("CanAttack", combatEnabled);
+        
+        
     }
 
-    void Update()
+
+    public void Update()
     {
-        if(Time.time >= nextAttackTime)
+        bool grounded = anim.GetBool("Grounded");
+
+        if (!grounded)
         {
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                nextAttackTime = Time.time + (1f / attackRate);// calculate cooldown
-                Attack(1);
-            }
-            else if (Input.GetKeyDown(KeyCode.K))
-            {
-                nextAttackTime = Time.time + (1f / attackRate);// calculate cooldown
-                Attack(2);
-            }
-        }
-    }
-
-    private void Attack(int type)
-    {
-        if (type == 1)
-            anim.SetTrigger("IsLightAttacking");
-        else if (type == 2)
-            anim.SetTrigger("IsAttacking");
-
-        // hitting list
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackP.position, attackRange, enemyLayer);
-        foreach(Collider2D enemy in hitEnemies)
-        {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackP == null)
             return;
+        }
+        else
+        {
+            CheckAttackInput();
+        }
+
+    }
+
+    public void CheckAttackInput()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            if (combatEnabled)
+            {
+                nextAttackTime = Time.time + (1f / attackRate);// calculate cooldown
+                // attemmpt combat
+                gotInput = true;
+                LightAttack();
+            }
+        }
+        else if(Input.GetKeyDown(KeyCode.K))
+        {
+            if (combatEnabled)
+            {
+                nextAttackTime = Time.time + (1f / attackRate);// calculate cooldown
+                // attemmpt combat
+                gotInput = true;
+                Attack();
+            }
+        }
+    }
+
+    public void LightAttack()
+    {
+        if (gotInput)
+        {
+            if (!isAttacking)
+            {
+                gotInput = false;
+                isAttacking = true;
+                anim.SetBool("LightAttack", true);
+                anim.SetBool("IsAttacking", isAttacking);
+                anim.SetBool("CanRun", !isAttacking);
+
+            }
+        }
+    }
+
+    public void Attack()
+    {
+        if (gotInput)
+        {
+            if (!isAttacking)
+            {
+                gotInput = false;
+                isAttacking = true;
+                anim.SetBool("Attack", true);
+                anim.SetBool("IsAttacking", isAttacking);
+                anim.SetBool("CanRun", !isAttacking);
+
+            }
+        }
+
+    }
+
+    public void CheckLiteAttackHitBox()
+    {
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackP.position, attackRange, whatIsDamageable);
+        foreach(Collider2D collider in detectedObjects)
+        {
+            // collider.transform.parent.SendMessage("Damage", liteAttackDamage); // call from any other different scripts
+            collider.GetComponent<Enemy>().TakeDamage(liteAttackDamage);
+        }
+    }
+
+    public void CheckAttackHitBox()
+    {
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackP.position, attackRange, whatIsDamageable);
+        foreach (Collider2D collider in detectedObjects)
+        {
+            // collider.transform.parent.SendMessage("Damage", attackDamage); // call from any other different scripts
+            collider.GetComponent<Enemy>().TakeDamage(attackDamage);
+        }
+    }
+
+    public void FinishAttack()
+    {
+        isAttacking = false;
+        anim.SetBool("IsAttacking", false);
+        anim.SetBool("LightAttack", false);
+        anim.SetBool("Attack", false);
+        anim.SetBool("CanRun", true);
+    }
+
+
+    private void OnDrawGizmos()
+    {
         Gizmos.DrawWireSphere(attackP.position, attackRange);
     }
 }

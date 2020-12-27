@@ -560,6 +560,8 @@ MonoBehaviour:
   gravityModifier: 0
   JumpTakeOffSpeed: 7
   MaxSpeed: 7
+  canFlip: 0
+  canRun: 1
 --- !u!212 &1958781076
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -641,13 +643,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d8a18c3bca5ab84daff48203e5879b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackP: {fileID: 483614337}
+  combatEnabled: 0
   attackRange: 0.5
-  enemyLayer:
+  attackRate: 1
+  attackDamage: 70
+  liteAttackDamage: 30
+  whatIsDamageable:
     serializedVersion: 2
     m_Bits: 512
-  attackDamage: 40
-  attackRate: 2
+  attackP: {fileID: 483614337}
 --- !u!1 &1999926463
 GameObject:
   m_ObjectHideFlags: 0
