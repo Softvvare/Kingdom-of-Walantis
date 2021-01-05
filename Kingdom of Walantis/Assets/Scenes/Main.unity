@@ -5140,6 +5140,8 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+
+
   m_GameObject: {fileID: 1958781070}
   m_Enabled: 0
   m_EditorHideFlags: 0
@@ -5149,6 +5151,7 @@ MonoBehaviour:
   minGroundNormalY: 0
   gravityModifier: 1
 --- !u!114 &1958781075
+
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5161,6 +5164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minGroundNormalY: 0
+
   gravityModifier: 0
   JumpTakeOffSpeed: 7
   MaxSpeed: 7
@@ -5259,10 +5263,12 @@ MonoBehaviour:
   attackP: {fileID: 483614337}
 --- !u!114 &1958781079
 MonoBehaviour:
+
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+
   m_GameObject: {fileID: 1958781070}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -5280,10 +5286,12 @@ MonoBehaviour:
   isExamining: 0
 --- !u!114 &1958781080
 MonoBehaviour:
+
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+
   m_GameObject: {fileID: 1958781070}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -5314,6 +5322,7 @@ MonoBehaviour:
   descriptionImage: {fileID: 2124170970}
   descriptionText: {fileID: 1507111569}
 --- !u!1 &1968650712
+
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5459,10 +5468,10 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+
   m_GameObject: {fileID: 1975423818}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1109805320}
