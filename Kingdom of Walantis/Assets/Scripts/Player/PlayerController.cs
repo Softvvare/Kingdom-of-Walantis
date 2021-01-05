@@ -34,6 +34,11 @@ public class PlayerController : PhysicsObject
             MoveP.x = 0f;
         }
 
+        if (!isExaminingOrInventoryOpen())
+        {
+            MoveP.x = 0f; // issue on jumping
+        }
+
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -124,6 +129,16 @@ public class PlayerController : PhysicsObject
             return false;
         else
             return true;
+    }
+
+    private bool isExaminingOrInventoryOpen()
+    {
+        bool canMove = true;
+        if (FindObjectOfType<InteractionController>().isExamining)
+            canMove = false;
+        if (FindObjectOfType<InventoryController>().isInventoryOpen)
+            canMove = false;
+        return canMove;
     }
 
 
