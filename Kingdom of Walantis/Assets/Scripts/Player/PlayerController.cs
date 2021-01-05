@@ -24,7 +24,6 @@ public class PlayerController : PhysicsObject
 
     protected override void ComputeVelocity()
     {
-
         Vector2 MoveP = Vector2.zero;
         
         MoveP.x = Input.GetAxis("Horizontal");
@@ -32,6 +31,11 @@ public class PlayerController : PhysicsObject
         if (canRun == false && anim.GetBool("Grounded") == true) //  anim.GetBool("IsAttacking") == true
         {
             MoveP.x = 0f;
+        }
+
+        if (!isExaminingOrInventoryOpen())
+        {
+            MoveP.x = 0f; // issue on jumping
         }
 
 
@@ -124,6 +128,16 @@ public class PlayerController : PhysicsObject
             return false;
         else
             return true;
+    }
+
+    private bool isExaminingOrInventoryOpen()
+    {
+        bool canMove = true;
+        if (FindObjectOfType<InteractionController>().isExamining)
+            canMove = false;
+        if (FindObjectOfType<InventoryController>().isInventoryOpen)
+            canMove = false;
+        return canMove;
     }
 
 
