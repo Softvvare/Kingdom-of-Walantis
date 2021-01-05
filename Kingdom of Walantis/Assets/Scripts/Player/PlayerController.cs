@@ -24,6 +24,7 @@ public class PlayerController : PhysicsObject
 
     protected override void ComputeVelocity()
     {
+
         Vector2 MoveP = Vector2.zero;
         
         MoveP.x = Input.GetAxis("Horizontal");
