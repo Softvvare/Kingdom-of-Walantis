@@ -52,7 +52,7 @@ public class Enemy : PhysicsObject
         flip = true;
         canRun = true;
         MoveP.x = 1f;
-        agroRange = 4;
+        //agroRange = 4;
         MaxSpeed = 3;
 
     }
@@ -196,12 +196,12 @@ public class Enemy : PhysicsObject
 
         if (distToPlayer < agroRange)
         {
-            Debug.Log("True" + distToPlayer);
+            //Debug.Log("True" + distToPlayer);
             return true;
         }
         else
         {
-            Debug.Log("False" + distToPlayer);
+            //Debug.Log("False" + distToPlayer);
             return false;
         }
     }
