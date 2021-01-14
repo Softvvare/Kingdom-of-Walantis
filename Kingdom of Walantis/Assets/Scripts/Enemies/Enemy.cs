@@ -60,38 +60,61 @@ public class Enemy : PhysicsObject
 
     protected override void MoveTowards()
     {
-        //transform.position = Vector2.MoveTowards(transform.position, PlayerObj.transform.position, MaxSpeed * Time.deltaTime);
-
-        /*        float distToPlayer = Vector2.Distance(transform.position, PlayerObj.position);
-
-                if (distToPlayer < agroRange)
-                {
-                    if (transform.position.x < PlayerObj.position.x)
-                    {
-                        MoveP.x = 1f;
-                    }
-                    else
-                    {
-                        MoveP.x = -1f;
-                    }
-                }*/
-
 
         if (CheckFlip())
         {
             if (MoveP.x > 0 && LookRight == true)
             {
                 Flip();
-
                 MoveP.x = -1f;
             }
             else if (MoveP.x < 0 && LookRight == false)
             {
                 Flip();
-
                 MoveP.x = 1f;
             }
+            else
+            {
+                MoveP.x = 0f;
+            }
         }
+
+
+        if (DistanceAttackChecker())
+        {
+            MoveP.x = 0;
+        }
+        else
+        {
+            
+        }
+
+        /*if (DistanceAttackChecker())
+        {
+            if (MoveP.x > 0 || MoveP.x < 0)
+            {
+                MoveP.x = 0f;
+                //attack anim
+            }
+        }
+        else
+        {
+            if (!DistanceAttackChecker())
+            {
+                if (LookRight)
+                {
+                    MoveP.x = 1f;
+                }
+                else
+                {
+                    MoveP.x = -1f;
+                }
+            }
+            else
+            {
+                MoveP.x = 0f;
+            }
+        }*/
     }
  
 
@@ -127,7 +150,6 @@ public class Enemy : PhysicsObject
         {
             MoveP.x = 0f;
         }
-
 
         if (CheckFlip())
         {
@@ -190,11 +212,11 @@ public class Enemy : PhysicsObject
     }
 
 
-    public bool DistanceChecker()
+    public bool DistanceFlipChecker()
     {
         float distToPlayer = Vector2.Distance(transform.position.normalized, PlayerObj.position);
 
-        if (distToPlayer < agroRange)
+        if (distToPlayer < agroRange*2)
         {
             //Debug.Log("True" + distToPlayer);
             return true;
@@ -206,6 +228,25 @@ public class Enemy : PhysicsObject
         }
     }
 
+
+    public bool DistanceAttackChecker()
+    {
+        float distToPlayerAttack = Vector2.Distance(transform.position.normalized, PlayerObj.position);
+
+        if (distToPlayerAttack < 4.3)
+        {
+            //Debug.Log("Yess" + distToPlayerAttack);
+            return true;
+        }
+        else
+        {
+            //Debug.Log("Noo" + distToPlayerAttack);
+            return false;
+        }
+    }
+
+
+
     public bool CheckFlip()
     {
         Collider2D detectedObject = Physics2D.OverlapCircle(rotateP.position, 0.1f, groundLayer);
@@ -214,7 +255,7 @@ public class Enemy : PhysicsObject
 
         if (detectedObject == null && detectedPlayer == null)
         {
-            if (!DistanceChecker())
+            if (!DistanceFlipChecker())
             {
                 flip = false;
                 return false;
@@ -229,7 +270,7 @@ public class Enemy : PhysicsObject
 
         else if (detectedObject != null && detectedPlayer == null)
         {
-            if (!DistanceChecker())
+            if (!DistanceFlipChecker())
             {
                 flip = true;
                 return true;
@@ -244,7 +285,7 @@ public class Enemy : PhysicsObject
         
         else if (detectedObject == null && detectedPlayer != null)
         {
-            if (DistanceChecker())
+            if (DistanceFlipChecker())
             {
                 flip = false;
                 return false;
@@ -259,7 +300,7 @@ public class Enemy : PhysicsObject
        
         else // if(detectedObject != null && detectedPlayer != null)
         {
-            if (DistanceChecker())
+            if (DistanceFlipChecker())
             {
                 flip = false;
                 return false;

@@ -40,7 +40,7 @@ public class InventoryController : MonoBehaviour
         HideItems();
         for (int i = 0; i < items.Count; i++)
         {
-            Debug.Log(items[i]);
+            //Debug.Log(items[i]);
             itemsImages[i].sprite = items[i].GetComponent<SpriteRenderer>().sprite;
             itemsImages[i].gameObject.SetActive(true);
         }

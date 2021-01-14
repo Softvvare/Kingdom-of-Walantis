@@ -4,12 +4,33 @@ using UnityEngine;
 
 public class PlayerController : PhysicsObject
 {
-    public float JumpTakeOffSpeed = 7;
-    public float MaxSpeed = 7;
+    [SerializeField]
+    private 
+        float JumpTakeOffSpeed = 7,
+              MaxSpeed = 7;
+
     private bool canDoubleJump;
-    public bool canFlip, canRun;
+    private bool canFlip, canRun;
     private bool LookRight = true;
     private bool falling = false; // check is we are falling
+
+
+    /// <summary>
+    [SerializeField]
+    private float dashRate = 4.0f;
+
+    [SerializeField]
+    private ParticleSystem dash;
+
+    [SerializeField]
+    private float actionCooldown = 5.0f;
+
+    private float nextDash;
+    private bool isDashing;
+    private float timeSinceAction = 5.0f;
+   
+    /// </summary>
+    
 
     private Animator anim;
 
@@ -19,6 +40,9 @@ public class PlayerController : PhysicsObject
         this.gravityModifier = 2f;
         canFlip = true;
         canRun = true;
+        ///
+        isDashing = false;
+        /// 
     }
 
 
@@ -80,6 +104,32 @@ public class PlayerController : PhysicsObject
             Flip();
         }
 
+
+        ///
+        timeSinceAction += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.L)&& timeSinceAction > actionCooldown)//&& Time.time > nextDash)
+        {
+            if (!isDashing )
+            {
+                timeSinceAction = 0;
+                nextDash = Time.time + dashRate;
+                MaxSpeed *= 2;
+                DashParticle();
+            }
+        }
+
+        if (Time.time <= nextDash)
+        {
+            isDashing = true;
+        }
+        else
+        {
+            MaxSpeed = 7;
+            isDashing = false;
+        }
+        ///
+
         // set animation parameters
         anim.SetBool("Grounded", grounded);
         anim.SetBool("DoubleJump", canDoubleJump); 
@@ -89,6 +139,12 @@ public class PlayerController : PhysicsObject
         targetVelocity = MoveP * MaxSpeed;
 
     }
+    /// <summary>
+    private void DashParticle()
+    {
+        dash.Play();
+    }
+    /// </summary>
     private void Flip()
     {
 
