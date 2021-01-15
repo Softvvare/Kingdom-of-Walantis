@@ -9,7 +9,7 @@ public class PlayerAttackController : MonoBehaviour
     private float  attackRange = 0.5f,  attackRate = 1f;// attack cooldown
 
     [SerializeField]
-    private int attackDamage = 70, liteAttackDamage = 30;
+    private int attackDamage = 20, lightAttackDamage = 10;
 
     [SerializeField]
     private LayerMask whatIsDamageable;
@@ -101,19 +101,17 @@ public class PlayerAttackController : MonoBehaviour
                 anim.SetBool("Attack", true);
                 anim.SetBool("IsAttacking", isAttacking);
                 anim.SetBool("CanRun", !isAttacking);
-
             }
         }
-
     }
 
-    public void CheckLiteAttackHitBox()
+    public void CheckLightAttackHitBox()
     {
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackP.position, attackRange, whatIsDamageable);
         foreach(Collider2D collider in detectedObjects)
         {
             // collider.transform.parent.SendMessage("Damage", liteAttackDamage); // call from any other different scripts
-            collider.GetComponent<Enemy>().TakeDamage(liteAttackDamage);
+            collider.GetComponent<EnemyController>().TakeDamage(lightAttackDamage);
         }
     }
 
@@ -123,7 +121,7 @@ public class PlayerAttackController : MonoBehaviour
         foreach (Collider2D collider in detectedObjects)
         {
             // collider.transform.parent.SendMessage("Damage", attackDamage); // call from any other different scripts
-            collider.GetComponent<Enemy>().TakeDamage(attackDamage);
+            collider.GetComponent<EnemyController>().TakeDamage(attackDamage);
         }
     }
 

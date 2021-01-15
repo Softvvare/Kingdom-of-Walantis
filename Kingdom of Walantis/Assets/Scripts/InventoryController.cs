@@ -52,6 +52,7 @@ public class InventoryController : MonoBehaviour
         {
             item.gameObject.SetActive(false);
         }
+        HideDescription();
     }
 
     public void ShowDescription(int id)
@@ -67,4 +68,18 @@ public class InventoryController : MonoBehaviour
         descriptionImage.gameObject.SetActive(false);
         descriptionText.gameObject.SetActive(false);
     }
+
+    public void Consume(int id)
+    {
+        if (items[id].GetComponent<Interactable>().itemType == Interactable.ItemType.Consumable)
+        {
+            Debug.Log("Consumed " + items[id].name);
+            items[id].GetComponent<Interactable>().consumeEvent.Invoke();
+            Destroy(items[id], 0.1f);
+            //items.Remove(items[id]);
+            items.RemoveAt(id);
+            UpdateUI();
+        }
+    }
+
 }

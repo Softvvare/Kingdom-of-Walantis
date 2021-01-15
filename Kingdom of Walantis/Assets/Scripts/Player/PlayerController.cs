@@ -13,6 +13,7 @@ public class PlayerController : PhysicsObject
     private bool canFlip, canRun;
     private bool LookRight = true;
     private bool falling = false; // check is we are falling
+    private bool isDead = false;
 
 
     /// <summary>
@@ -197,5 +198,17 @@ public class PlayerController : PhysicsObject
         return canMove;
     }
 
+    public void Hurt(float damage)
+    {
+        anim.SetTrigger("GetHurt");
+        FindObjectOfType<HealthController>().LoseHealth(damage);
+    }
+
+    public void Die()
+    {
+        isDead = true;
+        anim.SetBool("IsDead", isDead);
+        FindObjectOfType<LevelController>().Restart();
+    }
 
 }
