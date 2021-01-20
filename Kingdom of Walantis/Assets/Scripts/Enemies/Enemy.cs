@@ -121,7 +121,7 @@ public class Enemy : PhysicsObject
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("Damage Taken");
+        //Debug.Log("Damage Takennn "+ damage);
         // play hurt animaton ekle, bool isDead
         anim.SetTrigger("Hurt");
 

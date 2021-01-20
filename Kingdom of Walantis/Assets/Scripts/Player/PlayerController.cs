@@ -198,6 +198,17 @@ public class PlayerController : PhysicsObject
         return canMove;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject collisionObject = collision.gameObject;
+        
+        if (LayerMask.LayerToName(13) == collisionObject.name)
+        {
+            Debug.Log("AAAAAAHHH LAVVAAAA" + LayerMask.LayerToName(13));
+            Die();
+        }
+    }
+
     public void Hurt(float damage)
     {
         anim.SetTrigger("GetHurt");

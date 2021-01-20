@@ -99,7 +99,7 @@ public class EnemyController : PhysicsObject
         float distance = Vector2.Distance(transform.position, playerObject.transform.position);
         if (distance <= agroRange)
         {
-            Debug.Log("Attacking");
+            //Debug.Log("Attacking");
             animator.SetBool("IsAttacking", true);
             animator.SetTrigger("Attack");
             playerObject.GetComponent<PlayerController>().Hurt(damage);
@@ -107,7 +107,7 @@ public class EnemyController : PhysicsObject
         }
         else
         {
-            Debug.Log("not Attacking");
+           //Debug.Log("not Attacking");
         }
     }
 
@@ -135,7 +135,7 @@ public class EnemyController : PhysicsObject
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("Damage Taken");
+        Debug.Log("Damage Taken "+ damage);
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
             Die();

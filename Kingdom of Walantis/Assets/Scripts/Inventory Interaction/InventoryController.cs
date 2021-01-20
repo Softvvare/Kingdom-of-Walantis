@@ -74,11 +74,26 @@ public class InventoryController : MonoBehaviour
         if (items[id].GetComponent<Interactable>().itemType == Interactable.ItemType.Consumable)
         {
             Debug.Log("Consumed " + items[id].name);
+            ///
+            PowerUp(items[id].name);
+            ///
             items[id].GetComponent<Interactable>().consumeEvent.Invoke();
             Destroy(items[id], 0.1f);
             //items.Remove(items[id]);
             items.RemoveAt(id);
             UpdateUI();
+        }
+    }
+
+    public void PowerUp(string item)
+    {
+        Debug.Log("ITEM NAME" + item);
+        if (item == "Potion of Power")
+        {
+            
+            PlayerPrefs.SetInt("lightAttackDamage", 30);
+            PlayerPrefs.SetInt("attackDamage", 40);
+
         }
     }
 

@@ -29,8 +29,10 @@ public class PlayerAttackController : MonoBehaviour
         isAttacking = false;
         anim = GetComponent<Animator>();
         anim.SetBool("CanAttack", combatEnabled);
-        
-        
+        PlayerPrefs.SetInt("lightAttackDamage", lightAttackDamage);
+        PlayerPrefs.SetInt("attackDamage", attackDamage);
+
+
     }
 
 
@@ -111,6 +113,7 @@ public class PlayerAttackController : MonoBehaviour
         foreach(Collider2D collider in detectedObjects)
         {
             // collider.transform.parent.SendMessage("Damage", liteAttackDamage); // call from any other different scripts
+            lightAttackDamage = PlayerPrefs.GetInt("lightAttackDamage");
             collider.GetComponent<EnemyController>().TakeDamage(lightAttackDamage);
         }
     }
@@ -121,6 +124,7 @@ public class PlayerAttackController : MonoBehaviour
         foreach (Collider2D collider in detectedObjects)
         {
             // collider.transform.parent.SendMessage("Damage", attackDamage); // call from any other different scripts
+            lightAttackDamage = PlayerPrefs.GetInt("attackDamage");
             collider.GetComponent<EnemyController>().TakeDamage(attackDamage);
         }
     }
