@@ -7,9 +7,8 @@ public class LevelController : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject 
-        inventoryObject,
-        Dwarf; // 2. bolumdeki power up calisiyor mu diye check etmek icin
+    private GameObject
+        inventoryObject;
 
     public void Restart()
     {
@@ -32,16 +31,10 @@ public class LevelController : MonoBehaviour
             
             int index = (SceneManager.GetActiveScene().buildIndex);
             DontDestroyOnLoad(collisionObject);
-            DontDestroyOnLoad(inventoryObject.gameObject);
-            DontDestroyOnLoad(Dwarf.gameObject);
-
-            PlayerPrefs.SetFloat("DwarfX", Dwarf.transform.position.x);
-            PlayerPrefs.SetFloat("DwarfX", Dwarf.transform.position.y);
-
-
+            //DontDestroyOnLoad(inventoryObject.gameObject);
+            DontDestroyOnLoad(GameObject.Find("Interactables"));
             NextLevel(index + 1);
             collisionObject.transform.position = Vector2.zero;
-            Dwarf.transform.position = new Vector2(PlayerPrefs.GetFloat("DwarfX"), PlayerPrefs.GetFloat("DwarfX"));
 
             /*
             try

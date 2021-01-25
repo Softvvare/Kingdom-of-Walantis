@@ -16,7 +16,7 @@ public class EnemyController : PhysicsObject
     public float currentHealth = 100f;
     [Header("Player Checks")]
     public Transform playerChecker;
-    public GameObject playerObject;
+    private Transform playerObject;
     public LayerMask playerLayer;
     [Header("Environment Checks")]
     public Transform rotateP;
@@ -27,6 +27,7 @@ public class EnemyController : PhysicsObject
     public void Awake()
     {
         animator = GetComponent<Animator>();
+        this.playerObject = GameObject.FindWithTag("Player").transform;
     }
 
     protected override void ComputeVelocity()
@@ -135,7 +136,6 @@ public class EnemyController : PhysicsObject
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        Debug.Log("Damage Taken "+ damage);
         animator.SetTrigger("Hurt");
         if (currentHealth <= 0)
             Die();
@@ -143,10 +143,9 @@ public class EnemyController : PhysicsObject
 
     void Die()
     {
-        Debug.Log("Enemy died");
         animator.SetBool("IsDead", true);
         //disable enemy
-        GetComponent<Collider2D>().enabled = false;
+        this.GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
     }
 
@@ -158,7 +157,7 @@ public class EnemyController : PhysicsObject
         Gizmos.DrawWireSphere(playerChecker.position, detectionRange);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(rotateP.position, 0.1f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, playerObject.transform.position);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawLine(transform.position, playerObject.transform.position);
     }
 }

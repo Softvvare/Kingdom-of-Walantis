@@ -87,13 +87,11 @@ public class InventoryController : MonoBehaviour
 
     public void PowerUp(string item)
     {
-        Debug.Log("ITEM NAME" + item);
-        if (item == "Potion of Power")
+        Debug.Log("ITEM NAME: " + item);
+        if (item == "Large Potion of Power")
         {
-            
             PlayerPrefs.SetInt("lightAttackDamage", 30);
             PlayerPrefs.SetInt("attackDamage", 40);
-
         }
     }
 
