@@ -29,27 +29,11 @@ public class LevelController : MonoBehaviour
         if (collisionObject.name == "Player")
         {
             
-            int index = (SceneManager.GetActiveScene().buildIndex);
+            int newIndex = (SceneManager.GetActiveScene().buildIndex) + 1;
             DontDestroyOnLoad(collisionObject);
-            //DontDestroyOnLoad(inventoryObject.gameObject);
             DontDestroyOnLoad(GameObject.Find("Interactables"));
-            NextLevel(index + 1);
+            NextLevel(newIndex);
             collisionObject.transform.position = Vector2.zero;
-
-            /*
-            try
-            {
-                Scene loadingScene = SceneManager.GetSceneByBuildIndex(index);
-                SceneManager.LoadScene(loadingScene.name, LoadSceneMode.Additive);
-                SceneManager.MoveGameObjectToScene(collisionObject, loadingScene);
-
-            }
-            catch (System.Exception)
-            {
-                Debug.LogError("Error occured on loading scene!");
-                throw;
-            }
-            */
         }
 
     }

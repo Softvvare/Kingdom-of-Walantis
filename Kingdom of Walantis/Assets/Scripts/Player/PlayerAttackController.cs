@@ -56,23 +56,17 @@ public class PlayerAttackController : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.J))
         {
-            if (combatEnabled)
-            {
-                nextAttackTime = Time.time + (1f / attackRate);// calculate cooldown
-                // attemmpt combat
-                gotInput = true;
-                LightAttack();
-            }
+            gotInput = true;
+            anim.SetBool("LightAttack", true);
+            anim.SetBool("IsAttacking", true);
+            anim.SetBool("CanRun", false);
         }
         else if(Input.GetKeyDown(KeyCode.K))
         {
-            if (combatEnabled)
-            {
-                nextAttackTime = Time.time + (1f / attackRate);// calculate cooldown
-                // attemmpt combat
-                gotInput = true;
-                Attack();
-            }
+            gotInput = true;
+            anim.SetBool("Attack", true);
+            anim.SetBool("IsAttacking", true);
+            anim.SetBool("CanRun", false);
         }
     }
 
@@ -84,10 +78,6 @@ public class PlayerAttackController : MonoBehaviour
             {
                 gotInput = false;
                 isAttacking = true;
-                anim.SetBool("LightAttack", true);
-                anim.SetBool("IsAttacking", isAttacking);
-                anim.SetBool("CanRun", !isAttacking);
-
             }
         }
     }
@@ -100,9 +90,6 @@ public class PlayerAttackController : MonoBehaviour
             {
                 gotInput = false;
                 isAttacking = true;
-                anim.SetBool("Attack", true);
-                anim.SetBool("IsAttacking", isAttacking);
-                anim.SetBool("CanRun", !isAttacking);
             }
         }
     }
@@ -132,6 +119,7 @@ public class PlayerAttackController : MonoBehaviour
     public void FinishAttack()
     {
         isAttacking = false;
+        gotInput = false;
         anim.SetBool("IsAttacking", false);
         anim.SetBool("LightAttack", false);
         anim.SetBool("Attack", false);

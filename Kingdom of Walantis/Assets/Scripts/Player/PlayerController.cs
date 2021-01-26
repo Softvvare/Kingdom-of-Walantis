@@ -212,7 +212,13 @@ public class PlayerController : PhysicsObject
     public void Hurt(float damage)
     {
         anim.SetTrigger("GetHurt");
+
+        FindObjectOfType<PlayerAttackController>().FinishAttack();
+
         FindObjectOfType<HealthController>().LoseHealth(damage);
+
+        this.EnableFlip();
+        this.EnableRun();
     }
 
     public void Die()

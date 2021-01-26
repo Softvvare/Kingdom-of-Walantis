@@ -146,6 +146,7 @@ public class EnemyController : PhysicsObject
         animator.SetBool("IsDead", true);
         //disable enemy
         this.GetComponent<Collider2D>().enabled = false;
+        
         this.enabled = false;
     }
 

@@ -5,6 +5,7 @@ public class HealthController : MonoBehaviour
 {
     public Image fillBar;
     public float health;
+    public float armor;
 
     private void Update()
     {
@@ -17,13 +18,19 @@ public class HealthController : MonoBehaviour
         if (health <= 0)
             return;
 
-        health -= damage;
-        fillBar.fillAmount = health / 100;
+        health -= (damage - armor);
+        //fillBar.fillAmount = health / 100;
+        UpdateBar();
         if (health <= 0)
         {
             //Debug.Log("Died");
             FindObjectOfType<PlayerController>().Die();
         }
+    }
+
+    public void UpdateBar()
+    {
+        fillBar.fillAmount = health / 100;
     }
 
 }

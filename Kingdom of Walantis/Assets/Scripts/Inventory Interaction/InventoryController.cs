@@ -87,11 +87,37 @@ public class InventoryController : MonoBehaviour
 
     public void PowerUp(string item)
     {
+        /*
         Debug.Log("ITEM NAME: " + item);
+        
         if (item == "Large Potion of Power")
         {
             PlayerPrefs.SetInt("lightAttackDamage", 30);
             PlayerPrefs.SetInt("attackDamage", 40);
+        }
+        */
+
+        switch (item)
+        {
+            case "Large Potion of Power":
+                Debug.Log("ITEM NAME: " + item);
+                PlayerPrefs.SetInt("lightAttackDamage", 30);
+                PlayerPrefs.SetInt("attackDamage", 40);
+                break;
+            case "Potion of Health":
+                Debug.Log("ITEM NAME: " + item);
+                //PlayerPrefs.SetFloat("health", FindObjectOfType<HealthController>().health + 10);
+                float playerHealth = FindObjectOfType<HealthController>().health;
+                if (playerHealth > 90) playerHealth = 100;
+                else FindObjectOfType<HealthController>().health += 10;
+                FindObjectOfType<HealthController>().UpdateBar();
+                break;
+            case "Card of Armor":
+                Debug.Log("ITEM NAME: " + item);
+                FindObjectOfType<HealthController>().armor += 5;
+                break;
+            default:
+                break;
         }
     }
 
