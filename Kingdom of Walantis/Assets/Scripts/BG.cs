@@ -29,9 +29,10 @@ public class BG : MonoBehaviour
     void Update()
     {
         int sceneIndex = (SceneManager.GetActiveScene().buildIndex);
-        
+
         if (sceneIndex == 1)
             InitBG();
+        else backgrounds = new Transform[1];
         
         if (backgrounds.Length == 2)
         {
@@ -56,7 +57,7 @@ public class BG : MonoBehaviour
         }
         catch (UnityException e)
         {
-            Debug.Log(e);
+            //Debug.Log(e);
         }
     }
 }

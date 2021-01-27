@@ -29,9 +29,12 @@ public class PlayerController : PhysicsObject
     private float nextDash;
     private bool isDashing;
     private float timeSinceAction = 5.0f;
-   
+
+    public GameObject loading;
+    float waitTime = 3f;
+
     /// </summary>
-    
+
 
     private Animator anim;
 
@@ -53,6 +56,9 @@ public class PlayerController : PhysicsObject
         Vector2 MoveP = Vector2.zero;
         
         MoveP.x = Input.GetAxis("Horizontal");
+
+        if (isDead)
+            return;
 
         if (canRun == false && anim.GetBool("Grounded") == true) //  anim.GetBool("IsAttacking") == true
         {
@@ -203,23 +209,20 @@ public class PlayerController : PhysicsObject
         GameObject collisionObject = collision.gameObject;
         
         if (collisionObject.tag == "Lava")
-        {            
-            Die();
+        {
+            Hurt(100);
         }
         else if (collisionObject.tag == "Spikes")
         {
-            Die();
+            Hurt(100);
         }
     }
 
     public void Hurt(float damage)
     {
         anim.SetTrigger("GetHurt");
-
         FindObjectOfType<PlayerAttackController>().FinishAttack();
-
         FindObjectOfType<HealthController>().LoseHealth(damage);
-
         this.EnableFlip();
         this.EnableRun();
     }
@@ -227,7 +230,29 @@ public class PlayerController : PhysicsObject
     public void Die()
     {
         isDead = true;
-        anim.SetBool("IsDead", isDead);
+        anim.SetBool("IsDead", true);
+        StartCoroutine(waitforDeath());
+    }
+
+    public void Load()
+    {
+        StartCoroutine(wait());
+    }
+
+    IEnumerator wait()
+    {
+        loading.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        loading.SetActive(false);
+    }
+
+    IEnumerator waitforDeath()
+    {
+        yield return new WaitForSeconds(1.45f);
+        FindObjectOfType<HealthController>().health = 100;
+        FindObjectOfType<HealthController>().UpdateBar();
+        anim.SetBool("IsDead", false);
+        isDead = false;
         FindObjectOfType<LevelController>().Restart();
     }
 

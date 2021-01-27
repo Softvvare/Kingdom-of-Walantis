@@ -9,8 +9,7 @@ public class HealthController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) // for testing
-            LoseHealth(5);
+
     }
 
     public void LoseHealth(float damage)
@@ -19,11 +18,9 @@ public class HealthController : MonoBehaviour
             return;
 
         health -= (damage - armor);
-        //fillBar.fillAmount = health / 100;
         UpdateBar();
         if (health <= 0)
         {
-            //Debug.Log("Died");
             FindObjectOfType<PlayerController>().Die();
         }
     }

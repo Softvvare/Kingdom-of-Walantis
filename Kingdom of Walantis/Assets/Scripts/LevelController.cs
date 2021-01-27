@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
+
+    public GameObject loadScreen;
+
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -13,7 +16,6 @@ public class LevelController : MonoBehaviour
 
     public void NextLevel(int index)
     {
-        StartCoroutine(waitress());
         SceneManager.LoadScene(index);
     }
 
@@ -24,19 +26,12 @@ public class LevelController : MonoBehaviour
 
         if (collisionObject.name == "Player")
         {
-            
             int index = (SceneManager.GetActiveScene().buildIndex);
+            collisionObject.GetComponent<PlayerController>().Load();
             DontDestroyOnLoad(collisionObject);           
             NextLevel(index + 1);
             collisionObject.transform.position = Vector2.zero;
-
         }
 
     }
-    IEnumerator waitress()
-    {
-        yield return new WaitForSeconds(5f);
-        Debug.Log("Just wait 5");
-    }
-
 }
