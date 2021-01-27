@@ -5,14 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
-
-    [SerializeField]
-    private GameObject
-        inventoryObject;
-
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        gameObject.transform.position = Vector2.zero;
     }
 
     public void NextLevel(int index)
@@ -29,11 +25,11 @@ public class LevelController : MonoBehaviour
         if (collisionObject.name == "Player")
         {
             
-            int newIndex = (SceneManager.GetActiveScene().buildIndex) + 1;
-            DontDestroyOnLoad(collisionObject);
-            DontDestroyOnLoad(GameObject.Find("Interactables"));
-            NextLevel(newIndex);
+            int index = (SceneManager.GetActiveScene().buildIndex);
+            DontDestroyOnLoad(collisionObject);           
+            NextLevel(index + 1);
             collisionObject.transform.position = Vector2.zero;
+
         }
 
     }

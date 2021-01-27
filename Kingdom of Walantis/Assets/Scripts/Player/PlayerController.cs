@@ -202,9 +202,12 @@ public class PlayerController : PhysicsObject
     {
         GameObject collisionObject = collision.gameObject;
         
-        if (LayerMask.LayerToName(13) == collisionObject.name)
+        if (collisionObject.tag == "Lava")
+        {            
+            Die();
+        }
+        else if (collisionObject.tag == "Spikes")
         {
-            Debug.Log("AAAAAAHHH LAVVAAAA" + LayerMask.LayerToName(13));
             Die();
         }
     }

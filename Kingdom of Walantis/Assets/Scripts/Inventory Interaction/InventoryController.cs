@@ -32,6 +32,7 @@ public class InventoryController : MonoBehaviour
     public void PickUp(GameObject item)
     {
         items.Add(item);
+        item.transform.parent = gameObject.transform;
         UpdateUI();
     }
 

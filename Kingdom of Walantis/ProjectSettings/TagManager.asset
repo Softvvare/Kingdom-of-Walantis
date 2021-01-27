@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Lava
+  - Spikes
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - 
   - Ground
   - Lava
-  - 
+  - Spike
   - 
   - 
   - 
