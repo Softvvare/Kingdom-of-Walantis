@@ -15,8 +15,6 @@ public class PlayerController : PhysicsObject
     private bool falling = false; // check is we are falling
     private bool isDead = false;
 
-
-    /// <summary>
     [SerializeField]
     private float dashRate = 4.0f;
 
@@ -31,9 +29,15 @@ public class PlayerController : PhysicsObject
     private float timeSinceAction = 5.0f;
 
     public GameObject loading;
-    float waitTime = 3f;
+    public float dashwaitPowerUp = 10f; // dash power up duration
+    public float dashtempWaitPowerUp = 0f; // temp dash power up duration
+    public bool dashpoweredUp = false; // dash power up
+    public bool dashLarge = false; // is power up poiton large
 
-    /// </summary>
+    public float powerwaitPowerUp = 10f; // power power up duration
+    public float powertempWaitPowerUp = 0f; // temp power power up duration
+    public bool powerpoweredUp = false; // power power up
+    public bool powerLarge = false; // is power up poiton large
 
 
     private Animator anim;
@@ -89,6 +93,11 @@ public class PlayerController : PhysicsObject
             }
         }
 
+        // powerups
+        DashPotion();
+        PowerPotion();
+        // powerups
+
         if (!grounded)
         {
             falling = isFalling(velocity);
@@ -115,7 +124,7 @@ public class PlayerController : PhysicsObject
         ///
         timeSinceAction += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.L)&& timeSinceAction > actionCooldown)//&& Time.time > nextDash)
+        if (Input.GetKeyDown(KeyCode.Q)&& timeSinceAction > actionCooldown)//&& Time.time > nextDash)
         {
             if (!isDashing )
             {
@@ -146,12 +155,67 @@ public class PlayerController : PhysicsObject
         targetVelocity = MoveP * MaxSpeed;
 
     }
-    /// <summary>
+    
     private void DashParticle()
     {
         dash.Play();
     }
-    /// </summary>
+
+    public void DashPotion()
+    {
+        if (dashpoweredUp)
+        {
+            if (dashtempWaitPowerUp <= 0)
+            {
+                dashtempWaitPowerUp = dashwaitPowerUp;
+            }
+            else
+            {
+                dashtempWaitPowerUp -= Time.deltaTime;
+                if (dashLarge)
+                    actionCooldown = 2f;
+                else
+                    actionCooldown = 3f;
+                if (dashtempWaitPowerUp <= 0)
+                {
+                    actionCooldown = 5f;
+                    dashpoweredUp = false;
+                }
+            }
+        }
+    }
+
+    public void PowerPotion()
+    {
+        if (powerpoweredUp)
+        {
+            if (powertempWaitPowerUp <= 0)
+            {
+                powertempWaitPowerUp = powerwaitPowerUp;
+            }
+            else
+            {
+                powertempWaitPowerUp -= Time.deltaTime;
+                if (powerLarge)
+                {
+                    FindObjectOfType<PlayerAttackController>().attackDamage = PlayerPrefs.GetInt("attackDamage") + 25;
+                    FindObjectOfType<PlayerAttackController>().lightAttackDamage = PlayerPrefs.GetInt("lightAttackDamage") + 20;
+                }
+                else
+                {
+                    FindObjectOfType<PlayerAttackController>().attackDamage = PlayerPrefs.GetInt("attackDamage") + 15;
+                    FindObjectOfType<PlayerAttackController>().lightAttackDamage = PlayerPrefs.GetInt("lightAttackDamage") + 10;
+                }
+                if (powertempWaitPowerUp <= 0)
+                {
+                    FindObjectOfType<PlayerAttackController>().attackDamage = PlayerPrefs.GetInt("attackDamage");
+                    FindObjectOfType<PlayerAttackController>().lightAttackDamage = PlayerPrefs.GetInt("lightAttackDamage");
+                    powerpoweredUp = false;
+                }
+            }
+        }
+    }
+
     private void Flip()
     {
 
@@ -194,7 +258,7 @@ public class PlayerController : PhysicsObject
             return true;
     }
 
-    private bool isExaminingOrInventoryOpen()
+    public bool isExaminingOrInventoryOpen()
     {
         bool canMove = true;
         if (FindObjectOfType<InteractionController>().isExamining)

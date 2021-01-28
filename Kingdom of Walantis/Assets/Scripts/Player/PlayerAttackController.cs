@@ -8,8 +8,7 @@ public class PlayerAttackController : MonoBehaviour
     [SerializeField]
     private float  attackRange = 0.5f,  attackRate = 1f;// attack cooldown
 
-    [SerializeField]
-    private int attackDamage = 20, lightAttackDamage = 10;
+    public int attackDamage = 20, lightAttackDamage = 10;
 
     [SerializeField]
     private LayerMask whatIsDamageable;
@@ -31,8 +30,6 @@ public class PlayerAttackController : MonoBehaviour
         anim.SetBool("CanAttack", combatEnabled);
         PlayerPrefs.SetInt("lightAttackDamage", lightAttackDamage);
         PlayerPrefs.SetInt("attackDamage", attackDamage);
-
-
     }
 
 
@@ -53,15 +50,16 @@ public class PlayerAttackController : MonoBehaviour
 
     public void CheckAttackInput()
     {
-        
-        if (Input.GetKeyDown(KeyCode.J))
+        if (!FindObjectOfType<PlayerController>().isExaminingOrInventoryOpen())
+            return;
+        if (Input.GetMouseButtonDown(0))
         {
             gotInput = true;
             anim.SetBool("LightAttack", true);
             anim.SetBool("IsAttacking", true);
             anim.SetBool("CanRun", false);
         }
-        else if(Input.GetKeyDown(KeyCode.K))
+        else if(Input.GetMouseButtonDown(1))
         {
             gotInput = true;
             anim.SetBool("Attack", true);
@@ -74,6 +72,7 @@ public class PlayerAttackController : MonoBehaviour
     {
         if (gotInput)
         {
+            Debug.Log(PlayerPrefs.GetInt("lightAttackDamage"));
             if (!isAttacking)
             {
                 gotInput = false;
@@ -86,6 +85,7 @@ public class PlayerAttackController : MonoBehaviour
     {
         if (gotInput)
         {
+            Debug.Log(PlayerPrefs.GetInt("attackDamage"));
             if (!isAttacking)
             {
                 gotInput = false;

@@ -88,34 +88,36 @@ public class InventoryController : MonoBehaviour
 
     public void PowerUp(string item)
     {
-        /*
-        Debug.Log("ITEM NAME: " + item);
-        
-        if (item == "Large Potion of Power")
-        {
-            PlayerPrefs.SetInt("lightAttackDamage", 30);
-            PlayerPrefs.SetInt("attackDamage", 40);
-        }
-        */
-
         switch (item)
         {
+            case "Potion of Power":
+                FindObjectOfType<PlayerController>().powerpoweredUp = true;
+                FindObjectOfType<PlayerController>().powerLarge = false;
+                break;
             case "Large Potion of Power":
-                Debug.Log("ITEM NAME: " + item);
-                PlayerPrefs.SetInt("lightAttackDamage", 30);
-                PlayerPrefs.SetInt("attackDamage", 40);
+                FindObjectOfType<PlayerController>().powerpoweredUp = true;
+                FindObjectOfType<PlayerController>().powerLarge = true;
                 break;
             case "Potion of Health":
-                Debug.Log("ITEM NAME: " + item);
-                //PlayerPrefs.SetFloat("health", FindObjectOfType<HealthController>().health + 10);
                 float playerHealth = FindObjectOfType<HealthController>().health;
                 if (playerHealth > 90) playerHealth = 100;
                 else FindObjectOfType<HealthController>().health += 10;
                 FindObjectOfType<HealthController>().UpdateBar();
                 break;
             case "Card of Armor":
-                Debug.Log("ITEM NAME: " + item);
                 FindObjectOfType<HealthController>().armor += 5;
+                break;
+            case "Potion of Dash":
+                FindObjectOfType<PlayerController>().dashpoweredUp = true;
+                FindObjectOfType<PlayerController>().dashLarge = false;
+                break;
+            case "Large Potion of Dash":
+                FindObjectOfType<PlayerController>().dashpoweredUp = true;
+                FindObjectOfType<PlayerController>().dashLarge = true;
+                break;
+            case "Card of Sword":
+                PlayerPrefs.SetInt("attackDamage",30);
+                PlayerPrefs.SetInt("lightAttackDamage", 20);
                 break;
             default:
                 break;
