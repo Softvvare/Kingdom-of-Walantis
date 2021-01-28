@@ -105,7 +105,7 @@ MonoBehaviour:
   detectionRange: 2.5
   attackCooldown: 1.5
   nextAttackTime: 0
-  damage: 5
+  damage: 10
   currentHealth: 100
   playerChecker: {fileID: 376141865964212886}
   playerLayer:

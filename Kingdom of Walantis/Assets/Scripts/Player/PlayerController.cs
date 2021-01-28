@@ -122,7 +122,7 @@ public class PlayerController : PhysicsObject
         ///
         timeSinceAction += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Q)&& timeSinceAction > actionCooldown)//&& Time.time > nextDash)
+        if (Input.GetKeyDown(KeyCode.S)&& timeSinceAction > actionCooldown)//&& Time.time > nextDash)
         {
             if (!isDashing )
             {
@@ -272,11 +272,11 @@ public class PlayerController : PhysicsObject
         
         if (collisionObject.tag == "Lava")
         {
-            Hurt(100);
+            Hurt(1000);
         }
         else if (collisionObject.tag == "Spikes")
         {
-            Hurt(100);
+            Hurt(1000);
         }
     }
 
@@ -292,6 +292,7 @@ public class PlayerController : PhysicsObject
     public void Die()
     {
         isDead = true;
+        FindObjectOfType<InventoryController>().items.Clear();
         anim.SetBool("IsDead", true);
         StartCoroutine(waitforDeath());
     }

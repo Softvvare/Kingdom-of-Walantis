@@ -28,7 +28,8 @@ public class LevelController : MonoBehaviour
         {
             int index = (SceneManager.GetActiveScene().buildIndex);
             collisionObject.GetComponent<PlayerController>().Load();
-            DontDestroyOnLoad(collisionObject);           
+            if(index + 1 != 5)
+                DontDestroyOnLoad(collisionObject);           
             NextLevel(index + 1);
             collisionObject.transform.position = Vector2.zero;
         }

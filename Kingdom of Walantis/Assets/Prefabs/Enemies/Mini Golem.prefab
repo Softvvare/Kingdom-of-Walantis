@@ -106,7 +106,7 @@ MonoBehaviour:
   attackCooldown: 2.5
   nextAttackTime: 0
   damage: 20
-  currentHealth: 100
+  currentHealth: 120
   playerChecker: {fileID: 333446208867938122}
   playerLayer:
     serializedVersion: 2

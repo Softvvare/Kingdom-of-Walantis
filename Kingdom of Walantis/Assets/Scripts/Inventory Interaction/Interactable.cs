@@ -23,7 +23,7 @@ public class Interactable : MonoBehaviour // inherit from PhysicsObject + Rigidb
         gameObject.layer = 10; // 10: Interactable
     }
 
-    public void Interact()
+    public void Interact(GameObject examineShow)
     {
         if(interactionType == InteractionType.PickUp)
         {
@@ -32,8 +32,14 @@ public class Interactable : MonoBehaviour // inherit from PhysicsObject + Rigidb
         }
         else if(interactionType == InteractionType.Examine)
         {
-            if(Input.GetKeyDown(KeyCode.E))
+            if (FindObjectOfType<InteractionController>().isExamining)
+                examineShow.SetActive(false);
+            else
+                examineShow.SetActive(true);
+            if (Input.GetKeyDown(KeyCode.E))
+            {
                 FindObjectOfType<InteractionController>().Examine(this);
+            }
         }
         else
         { 

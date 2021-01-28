@@ -13,6 +13,7 @@ public class InteractionController : MonoBehaviour
     [Header("Examine")]
     public GameObject examineWindow;
     public Image examineImage;
+    public GameObject examineShow;
     public Text examineText;
     public bool isExamining;
 
@@ -20,9 +21,10 @@ public class InteractionController : MonoBehaviour
     {
         if (DetectItems())
         {
-            // interaction
-            detectedObject.GetComponent<Interactable>().Interact();
+            detectedObject.GetComponent<Interactable>().Interact(examineShow);
         }
+        else
+            examineShow.SetActive(false);
     }
 
     private bool DetectItems()
