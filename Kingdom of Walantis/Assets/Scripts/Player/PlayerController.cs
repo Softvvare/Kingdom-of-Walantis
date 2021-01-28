@@ -48,11 +48,9 @@ public class PlayerController : PhysicsObject
         this.gravityModifier = 2f;
         canFlip = true;
         canRun = true;
-        ///
         isDashing = false;
-        /// 
+        PlayerPrefs.SetFloat("actionCooldown", actionCooldown);
     }
-
 
     protected override void ComputeVelocity()
     {
@@ -173,12 +171,12 @@ public class PlayerController : PhysicsObject
             {
                 dashtempWaitPowerUp -= Time.deltaTime;
                 if (dashLarge)
-                    actionCooldown = 2f;
+                    actionCooldown = PlayerPrefs.GetFloat("actionCooldown") - 2.5f;
                 else
-                    actionCooldown = 3f;
+                    actionCooldown = PlayerPrefs.GetFloat("actionCooldown") - 1.5f;
                 if (dashtempWaitPowerUp <= 0)
                 {
-                    actionCooldown = 5f;
+                    actionCooldown = PlayerPrefs.GetFloat("actionCooldown");
                     dashpoweredUp = false;
                 }
             }

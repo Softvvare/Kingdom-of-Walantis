@@ -74,13 +74,9 @@ public class InventoryController : MonoBehaviour
     {
         if (items[id].GetComponent<Interactable>().itemType == Interactable.ItemType.Consumable)
         {
-            Debug.Log("Consumed " + items[id].name);
-            ///
             PowerUp(items[id].name);
-            ///
             items[id].GetComponent<Interactable>().consumeEvent.Invoke();
             Destroy(items[id], 0.1f);
-            //items.Remove(items[id]);
             items.RemoveAt(id);
             UpdateUI();
         }
@@ -100,12 +96,15 @@ public class InventoryController : MonoBehaviour
                 break;
             case "Potion of Health":
                 float playerHealth = FindObjectOfType<HealthController>().health;
-                if (playerHealth > 90) playerHealth = 100;
+                if (playerHealth >= 90) playerHealth = 100;
                 else FindObjectOfType<HealthController>().health += 10;
                 FindObjectOfType<HealthController>().UpdateBar();
                 break;
-            case "Card of Armor":
-                FindObjectOfType<HealthController>().armor += 5;
+            case "Large Potion of Health":
+                float playerHealthLarge = FindObjectOfType<HealthController>().health;
+                if (playerHealthLarge >= 80) playerHealth = 100;
+                else FindObjectOfType<HealthController>().health += 20;
+                FindObjectOfType<HealthController>().UpdateBar();
                 break;
             case "Potion of Dash":
                 FindObjectOfType<PlayerController>().dashpoweredUp = true;
@@ -115,9 +114,15 @@ public class InventoryController : MonoBehaviour
                 FindObjectOfType<PlayerController>().dashpoweredUp = true;
                 FindObjectOfType<PlayerController>().dashLarge = true;
                 break;
+            case "Card of Armor":
+                FindObjectOfType<HealthController>().armor += 5;
+                break;
             case "Card of Sword":
                 PlayerPrefs.SetInt("attackDamage",30);
                 PlayerPrefs.SetInt("lightAttackDamage", 20);
+                break;
+            case "Card of Dash":
+                PlayerPrefs.SetFloat("actionCooldown", 3.5f);
                 break;
             default:
                 break;
